@@ -1,0 +1,16 @@
+# CLion
+.idea/
+cmake-build-*/
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.exe
+*_autogen/
+
+# User-specific files
+*.user
+*~
+.DS_Store
+
