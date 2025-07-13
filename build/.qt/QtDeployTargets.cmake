@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_PomodoroTimer_FILE /mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/PomodoroTimer)
+set(__QT_DEPLOY_TARGET_PomodoroTimer_TYPE EXECUTABLE)
