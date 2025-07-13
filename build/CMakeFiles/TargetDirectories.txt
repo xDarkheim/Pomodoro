@@ -1,9 +1,0 @@
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/PomodoroTimer.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/edit_cache.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/rebuild_cache.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/list_install_components.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/install.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/install/local.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/install/strip.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/PomodoroTimer_autogen_timestamp_deps.dir
-/mnt/bc64d2fd-c074-4605-bf2f-3e4c83d0e1a0/CLionProjects/Pomodoro/build/CMakeFiles/PomodoroTimer_autogen.dir
