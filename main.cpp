@@ -11,7 +11,7 @@
 namespace {
     // Application constants - use QStringLiteral for compile-time optimization
     const QString APP_NAME = QStringLiteral("Pomodoro Timer");
-    const QString APP_VERSION = QStringLiteral("0.1.0");
+    const QString APP_VERSION = QStringLiteral("0.1.1");
     const QString ORGANIZATION = QStringLiteral("PomodoroApp");
 
     // Icon generation constants

@@ -15,6 +15,8 @@
 #include <QTextStream>
 #include <QApplication>
 
+#include "TimerState.h"
+
 // StatisticsChart implementation
 StatisticsChart::StatisticsChart(QWidget *parent)
     : QWidget(parent), m_maxValue(0)
@@ -49,6 +51,7 @@ void StatisticsChart::paintEvent(QPaintEvent *event)
         return;
     }
 
+    constexpr int LABEL_SKIP_INTERVAL = 3;
     const int margin = 40;
     const int chartWidth = width() - 2 * margin;
     const int chartHeight = height() - 2 * margin;
@@ -77,7 +80,7 @@ void StatisticsChart::paintEvent(QPaintEvent *event)
         painter.drawRect(barRect);
 
         // Draw date labels (every 3rd day to avoid crowding)
-        if ((x - margin) % (barWidth * 3) == 0) {
+        if ((x - margin) % (barWidth * LABEL_SKIP_INTERVAL) == 0) {
             painter.setPen(Qt::black);
             QString dateStr = it.key().toString("dd/MM");
             painter.drawText(x, height() - 10, dateStr);
@@ -320,10 +323,16 @@ void StatisticsDialog::loadDailyStatistics()
     QDate today = QDate::currentDate();
     for (int i = 0; i < 30; ++i) {
         QDate date = today.addDays(-i);
-        QString key = QString("dailyStats/workTime_%1").arg(date.toString("yyyy-MM-dd"));
-        int workTime = settings.value(key, 0).toInt();
-        if (workTime > 0) {
-            m_dailyWorkTime[date] = workTime / 60; // Convert to minutes
+        QSettings settings;
+        QVariantMap dailyStats = settings.value("dailyStats").toMap();
+
+        for (auto it = dailyStats.begin(); it != dailyStats.end(); ++it) {
+            QDate date = QDate::fromString(it.key(), "yyyy-MM-dd");
+            if (date.isValid()) {
+                QVariantMap dayData = it.value().toMap();
+                m_dailyWorkTime[date] = dayData["workTime"].toInt();
+                m_dailySessions[date] = dayData["sessions"].toInt();
+            }
         }
 
         QString sessionKey = QString("dailyStats/sessions_%1").arg(date.toString("yyyy-MM-dd"));
@@ -338,45 +347,37 @@ void StatisticsDialog::updateOverview()
 {
     m_totalSessionsLabel->setText(QString::number(m_totalSessions));
 
+    // Правильное форматирование времени
+    m_totalTimeLabel->setText(TimerStateHelper::formatDuration(m_totalWorkTime + m_totalBreakTime));
+    m_workTimeLabel->setText(TimerStateHelper::formatDuration(m_totalWorkTime));
+    m_breakTimeLabel->setText(TimerStateHelper::formatDuration(m_totalBreakTime)); // исправлено
+
+    int avgSession = m_totalSessions > 0 ? (m_totalWorkTime / m_totalSessions) : 0;
+    m_avgSessionLabel->setText(TimerStateHelper::formatDuration(avgSession));
+
     int totalMinutes = (m_totalWorkTime + m_totalBreakTime) / 60;
-    m_totalTimeLabel->setText(QString("%1h %2m")
-                             .arg(totalMinutes / 60)
-                             .arg(totalMinutes % 60));
-
     int workMinutes = m_totalWorkTime / 60;
-    m_workTimeLabel->setText(QString("%1h %2m")
-                            .arg(workMinutes / 60)
-                            .arg(workMinutes % 60));
-
-    int breakMinutes = m_totalBreakTime / 60;
-    m_breakTimeLabel->setText(QString("%1h %2m")
-                             .arg(breakMinutes / 60)
-                             .arg(breakMinutes % 60));
-
-    int avgSession = m_totalSessions > 0 ? workMinutes / m_totalSessions : 0;
-    m_avgSessionLabel->setText(QString("%1 minutes").arg(avgSession));
-
     int efficiency = totalMinutes > 0 ? (workMinutes * 100 / totalMinutes) : 0;
     m_efficiencyLabel->setText(QString("%1%").arg(efficiency));
 
     // Period statistics
     QDate today = QDate::currentDate();
     int todayMinutes = m_dailyWorkTime.value(today, 0);
-    m_todayLabel->setText(QString("%1 minutes").arg(todayMinutes));
+    m_todayLabel->setText(TimerStateHelper::formatDuration(todayMinutes * 60));
 
     // Calculate week total
     int weekTotal = 0;
     for (int i = 0; i < 7; ++i) {
         weekTotal += m_dailyWorkTime.value(today.addDays(-i), 0);
     }
-    m_weekLabel->setText(QString("%1 minutes").arg(weekTotal));
+    m_weekLabel->setText(TimerStateHelper::formatDuration(weekTotal * 60));
 
     // Calculate month total
     int monthTotal = 0;
     for (int i = 0; i < 30; ++i) {
         monthTotal += m_dailyWorkTime.value(today.addDays(-i), 0);
     }
-    m_monthLabel->setText(QString("%1 minutes").arg(monthTotal));
+    m_monthLabel->setText(TimerStateHelper::formatDuration(monthTotal * 60));
 }
 
 void StatisticsDialog::updateChart()

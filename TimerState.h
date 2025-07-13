@@ -45,10 +45,6 @@ public:
         return text;
     }
 
-    static QString getStateTextString(TimerState state) {
-        return getStateText(state);
-    }
-
     static int getDurationForState(TimerState state, int workDuration, int shortBreak, int longBreak) noexcept {
         switch (state) {
             case TimerState::Work:
@@ -59,6 +55,17 @@ public:
                 return longBreak;
         }
         return 0;
+    }
+
+    static QString formatDuration(int seconds) noexcept
+    {
+        const int hours = seconds / 3600;
+        const int minutes = (seconds % 3600) / 60;
+        if (hours > 0)
+        {
+            return QString("%1h %2m").arg(hours).arg(minutes);
+        }
+        return QString("%1m").arg(minutes);
     }
 };
 
