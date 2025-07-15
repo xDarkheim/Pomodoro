@@ -13,11 +13,11 @@ class NotificationManager : public QObject
 
 public:
     explicit NotificationManager(QWidget *parent = nullptr);
-    ~NotificationManager() = default;
+    ~NotificationManager() override;
 
     void setSystemTrayManager(SystemTrayManager *trayManager);
     void setNotificationsEnabled(bool enabled);
-    void showNotification(const QString &message);
+    void showNotification(const QString &message) const;
 
 private:
     QWidget *m_parent;

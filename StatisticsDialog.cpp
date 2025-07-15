@@ -1,18 +1,15 @@
 #include "StatisticsDialog.h"
 #include <QTabWidget>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QTextEdit>
-#include <QScrollArea>
 #include <QPainter>
 #include <QSettings>
 #include <QDate>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QTextStream>
 #include <QApplication>
 
 #include "TimerState.h"
@@ -52,7 +49,7 @@ void StatisticsChart::paintEvent(QPaintEvent *event)
     }
 
     constexpr int LABEL_SKIP_INTERVAL = 3;
-    const int margin = 40;
+    constexpr int margin = 40;
     const int chartWidth = width() - 2 * margin;
     const int chartHeight = height() - 2 * margin;
 
@@ -305,8 +302,8 @@ void StatisticsDialog::setStatistics(int totalSessions, int totalWorkTime, int t
      .arg(m_totalWorkTime / 3600).arg((m_totalWorkTime % 3600) / 60)
      .arg(m_totalBreakTime / 3600).arg((m_totalBreakTime % 3600) / 60)
      .arg(m_totalSessions > 0 ? m_totalWorkTime / (m_totalSessions * 60) : 0)
-     .arg(m_totalBreakTime > 0 ? QString::number(double(m_totalWorkTime) / m_totalBreakTime, 'f', 2) : "N/A")
-     .arg(m_totalSessions > 0 ? QString::number(double(m_totalSessions) / 7, 'f', 1) : "0")
+     .arg(m_totalBreakTime > 0 ? QString::number(static_cast<double>(m_totalWorkTime) / m_totalBreakTime, 'f', 2) : "N/A")
+     .arg(m_totalSessions > 0 ? QString::number(static_cast<double>(m_totalSessions) / 7, 'f', 1) : "0")
      .arg(m_dailyWorkTime.value(QDate::currentDate(), 0))
      .arg(m_dailyWorkTime.value(QDate::currentDate().addDays(-1), 0))
      .arg(m_dailyWorkTime.value(QDate::currentDate(), 0)) // This week calculation can be improved
@@ -323,28 +320,27 @@ void StatisticsDialog::loadDailyStatistics()
     QDate today = QDate::currentDate();
     for (int i = 0; i < 30; ++i) {
         QDate date = today.addDays(-i);
-        QSettings settings;
-        QVariantMap dailyStats = settings.value("dailyStats").toMap();
+        QSettings settings1;
+        auto dailyStats = settings1.value("dailyStats").toMap();
 
         for (auto it = dailyStats.begin(); it != dailyStats.end(); ++it) {
-            QDate date = QDate::fromString(it.key(), "yyyy-MM-dd");
-            if (date.isValid()) {
+            QDate date1 = QDate::fromString(it.key(), "yyyy-MM-dd");
+            if (date1.isValid()) {
                 QVariantMap dayData = it.value().toMap();
-                m_dailyWorkTime[date] = dayData["workTime"].toInt();
-                m_dailySessions[date] = dayData["sessions"].toInt();
+                m_dailyWorkTime[date1] = dayData["workTime"].toInt();
+                m_dailySessions[date1] = dayData["sessions"].toInt();
             }
         }
 
         QString sessionKey = QString("dailyStats/sessions_%1").arg(date.toString("yyyy-MM-dd"));
-        int sessions = settings.value(sessionKey, 0).toInt();
+        int sessions = settings1.value(sessionKey, 0).toInt();
         if (sessions > 0) {
             m_dailySessions[date] = sessions;
         }
     }
 }
 
-void StatisticsDialog::updateOverview()
-{
+void StatisticsDialog::updateOverview() const {
     m_totalSessionsLabel->setText(QString::number(m_totalSessions));
 
     // Правильное форматирование времени
@@ -380,8 +376,7 @@ void StatisticsDialog::updateOverview()
     m_monthLabel->setText(TimerStateHelper::formatDuration(monthTotal * 60));
 }
 
-void StatisticsDialog::updateChart()
-{
+void StatisticsDialog::updateChart() const {
     QMap<QDate, int> chartData;
     QDate today = QDate::currentDate();
 

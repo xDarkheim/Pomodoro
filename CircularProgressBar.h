@@ -3,8 +3,7 @@
 
 #include <QWidget>
 
-class CircularProgressBar : public QWidget
-{
+class CircularProgressBar final : public QWidget {
     Q_OBJECT
 
 public:
@@ -12,8 +11,8 @@ public:
 
     void setValue(int value);
     void setMaximum(int maximum);
-    int value() const { return m_value; }
-    int maximum() const { return m_maximum; }
+    [[nodiscard]] int value() const { return m_value; }
+    [[nodiscard]] int maximum() const { return m_maximum; }
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -23,7 +22,7 @@ private:
     int m_value;
     int m_maximum;
 
-    void updateChildPositions();
+    void updateChildPositions() const;
 };
 
 #endif // CIRCULARPROGRESSBAR_H

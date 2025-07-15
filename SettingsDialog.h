@@ -26,19 +26,19 @@ public:
     bool showNotifications() const;
 
     // Setters
-    void setWorkDuration(int minutes);
-    void setShortBreakDuration(int minutes);
-    void setLongBreakDuration(int minutes);
-    void setAutoStartBreaks(bool enabled);
-    void setAutoStartWork(bool enabled);
-    void setMinimizeToTray(bool enabled);
-    void setShowNotifications(bool enabled);
+    void setWorkDuration(int minutes) const;
+    void setShortBreakDuration(int minutes) const;
+    void setLongBreakDuration(int minutes) const;
+    void setAutoStartBreaks(bool enabled) const;
+    void setAutoStartWork(bool enabled) const;
+    void setMinimizeToTray(bool enabled) const;
+    void setShowNotifications(bool enabled) const;
 
 signals:
     void settingsChanged();
 
 private slots:
-    void resetToDefaults();
+    void resetToDefaults() const;
 
 private:
     void setupUI();

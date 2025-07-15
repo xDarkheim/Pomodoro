@@ -1,11 +1,9 @@
 #include <QApplication>
 #include <QScreen>
-#include <QIcon>
 #include <QPainter>
 #include <QPixmap>
 #include <QRadialGradient>
 #include <QPen>
-#include <QBrush>
 #include "PomodoroTimer.h"
 
 namespace {

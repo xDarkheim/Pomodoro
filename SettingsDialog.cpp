@@ -82,16 +82,15 @@ bool SettingsDialog::minimizeToTray() const { return m_minimizeToTrayCheck->isCh
 bool SettingsDialog::showNotifications() const { return m_showNotificationsCheck->isChecked(); }
 
 // Setters
-void SettingsDialog::setWorkDuration(int minutes) { m_workDurationSpin->setValue(minutes); }
-void SettingsDialog::setShortBreakDuration(int minutes) { m_shortBreakSpin->setValue(minutes); }
-void SettingsDialog::setLongBreakDuration(int minutes) { m_longBreakSpin->setValue(minutes); }
-void SettingsDialog::setAutoStartBreaks(bool enabled) { m_autoStartBreaksCheck->setChecked(enabled); }
-void SettingsDialog::setAutoStartWork(bool enabled) { m_autoStartWorkCheck->setChecked(enabled); }
-void SettingsDialog::setMinimizeToTray(bool enabled) { m_minimizeToTrayCheck->setChecked(enabled); }
-void SettingsDialog::setShowNotifications(bool enabled) { m_showNotificationsCheck->setChecked(enabled); }
+void SettingsDialog::setWorkDuration(int minutes) const { m_workDurationSpin->setValue(minutes); }
+void SettingsDialog::setShortBreakDuration(int minutes) const { m_shortBreakSpin->setValue(minutes); }
+void SettingsDialog::setLongBreakDuration(int minutes) const { m_longBreakSpin->setValue(minutes); }
+void SettingsDialog::setAutoStartBreaks(bool enabled) const { m_autoStartBreaksCheck->setChecked(enabled); }
+void SettingsDialog::setAutoStartWork(bool enabled) const { m_autoStartWorkCheck->setChecked(enabled); }
+void SettingsDialog::setMinimizeToTray(bool enabled) const { m_minimizeToTrayCheck->setChecked(enabled); }
+void SettingsDialog::setShowNotifications(bool enabled) const { m_showNotificationsCheck->setChecked(enabled); }
 
-void SettingsDialog::resetToDefaults()
-{
+void SettingsDialog::resetToDefaults() const {
     setWorkDuration(25);
     setShortBreakDuration(5);
     setLongBreakDuration(15);

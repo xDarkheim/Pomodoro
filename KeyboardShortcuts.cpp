@@ -1,11 +1,10 @@
 #include "KeyboardShortcuts.h"
 #include <QWidget>
 
-KeyboardShortcuts::KeyboardShortcuts(QWidget *parent)
-    : QObject(parent)
-{
-    setupShortcuts(parent);
+KeyboardShortcuts::KeyboardShortcuts(QWidget *parent) : QObject(parent) {
+  setupShortcuts(parent);
 }
+KeyboardShortcuts::~KeyboardShortcuts() = default;
 
 void KeyboardShortcuts::setupShortcuts(QWidget *parent)
 {

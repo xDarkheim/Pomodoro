@@ -10,30 +10,26 @@ CircularProgressBar::CircularProgressBar(QWidget *parent)
     setFixedSize(220, 220);
 }
 
-void CircularProgressBar::setValue(int value)
-{
-    int clampedValue = qBound(0, value, m_maximum);
-    if (clampedValue != m_value) {
+void CircularProgressBar::setValue(const int value) {
+  if (const int clampedValue = qBound(0, value, m_maximum); clampedValue != m_value) {
         m_value = clampedValue;
         update();
     }
 }
 
-void CircularProgressBar::setMaximum(int maximum)
-{
+void CircularProgressBar::setMaximum(int maximum){
     m_maximum = maximum;
     update();
 }
 
-void CircularProgressBar::paintEvent(QPaintEvent *event)
-{
+void CircularProgressBar::paintEvent(QPaintEvent *event){
     Q_UNUSED(event)
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    int side = qMin(width(), height());
-    QRect rect((width() - side) / 2 + 20, (height() - side) / 2 + 20,
+    const int side = qMin(width(), height());
+    const QRect rect((width() - side) / 2 + 20, (height() - side) / 2 + 20,
                side - 40, side - 40);
 
     // Background circle
@@ -48,19 +44,17 @@ void CircularProgressBar::paintEvent(QPaintEvent *event)
         progressPen.setCapStyle(Qt::RoundCap);
         painter.setPen(progressPen);
 
-        int angle = (360 * m_value) / m_maximum;
+        const int angle = (360 * m_value) / m_maximum;
         painter.drawArc(rect, 90 * 16, -angle * 16);
     }
 }
 
-void CircularProgressBar::resizeEvent(QResizeEvent *event)
-{
+void CircularProgressBar::resizeEvent(QResizeEvent *event){
     QWidget::resizeEvent(event);
     updateChildPositions();
 }
 
-void CircularProgressBar::updateChildPositions()
-{
+void CircularProgressBar::updateChildPositions() const {
     const auto children = findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly);
     for (QWidget *child : children) {
         child->resize(width(), 40);

@@ -8,10 +8,8 @@
 #include "TimerState.h"
 
 #include <QApplication>
-#include <QCloseEvent>
 #include <QDateTime>
 #include <QFont>
-#include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QSettings>
 #include <QVBoxLayout>
@@ -104,8 +102,8 @@ void PomodoroTimer::createButtons()
     m_statsButton = new QPushButton("Statistics", m_mainFrame);
 
     // Set button sizes
-    const QSize mainButtonSize(MAIN_BUTTON_WIDTH, MAIN_BUTTON_HEIGHT);
-    const QSize smallButtonSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
+    constexpr QSize mainButtonSize(MAIN_BUTTON_WIDTH, MAIN_BUTTON_HEIGHT);
+    constexpr QSize smallButtonSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
 
     m_startButton->setFixedSize(mainButtonSize);
     m_pauseButton->setFixedSize(mainButtonSize);
@@ -165,8 +163,7 @@ void PomodoroTimer::createLayouts()
     setLayout(frameLayout);
 }
 
-void PomodoroTimer::applyStyles()
-{
+void PomodoroTimer::applyStyles() const {
     QFont timeFont = m_timeLabel->font();
     timeFont.setPointSize(TIME_FONT_SIZE);
     timeFont.setBold(true);
@@ -325,13 +322,14 @@ void PomodoroTimer::updateTimerState(TimerState newState)
     m_currentState = newState;
 }
 
-QString PomodoroTimer::formatTime(int seconds) const
-{
-    const int minutes = seconds / 60;
-    const int secs = seconds % 60;
-    return QString("%1:%2").arg(minutes, 2, 10, QChar('0'))
-                          .arg(secs, 2, 10, QChar('0'));
+QString PomodoroTimer::formatTime(int seconds) {
+  const int minutes = seconds / 60;
+  const int secs = seconds % 60;
+  return QString("%1:%2")
+      .arg(minutes, 2, 10, QChar('0'))
+      .arg(secs, 2, 10, QChar('0'));
 }
+void PomodoroTimer::needsDisplayUpdate() {}
 
 void PomodoroTimer::updateDisplay()
 {
@@ -350,16 +348,14 @@ void PomodoroTimer::updateDisplay()
                                 currentSession, SESSIONS_BEFORE_LONG_BREAK);
 }
 
-void PomodoroTimer::updateSessionCounter()
-{
+void PomodoroTimer::updateSessionCounter() const {
     const int currentSession = (m_completedSessions % SESSIONS_BEFORE_LONG_BREAK) + 1;
     m_sessionLabel->setText(QString("Session %1 of %2")
                            .arg(currentSession)
                            .arg(SESSIONS_BEFORE_LONG_BREAK));
 }
 
-void PomodoroTimer::updateButtonStates()
-{
+void PomodoroTimer::updateButtonStates() const {
     m_startButton->setEnabled(!m_isRunning);
     m_pauseButton->setEnabled(m_isRunning);
 
@@ -377,21 +373,22 @@ void PomodoroTimer::updateButtonStates()
     }
 }
 
-void PomodoroTimer::updateWindowTitle()
-{
-    const QString timeRemaining = formatTime(m_currentTime);
-    const QString emoji = TimerStateHelper::getStateEmoji(m_currentState);
+void PomodoroTimer::updateWindowTitle() {
+  const QString timeRemaining = formatTime(m_currentTime);
+  const QString emoji = TimerStateHelper::getStateEmoji(m_currentState);
 
-    QString title;
-    if (m_isRunning) {
-        const QString stateText = (m_currentState == TimerState::Work) ? "Focus" : "Break";
-        title = QString("%1 %2: %3").arg(emoji, stateText, timeRemaining);
-    } else {
-        title = "🍅 Pomodoro Timer";
-    }
+  QString title;
+  if (m_isRunning) {
+    const QString stateText =
+        (m_currentState == TimerState::Work) ? "Focus" : "Break";
+    title = QString("%1 %2: %3").arg(emoji, stateText, timeRemaining);
+  } else {
+    title = "🍅 Pomodoro Timer";
+  }
 
-    setWindowTitle(title);
+  setWindowTitle(title);
 }
+void PomodoroTimer::updateTrayTooltip() {}
 
 void PomodoroTimer::onShowSettings()
 {
@@ -459,8 +456,7 @@ void PomodoroTimer::loadSettings()
     m_totalBreakTime = settings.value("totalBreakTime", 0).toInt();
 }
 
-void PomodoroTimer::saveSettings()
-{
+void PomodoroTimer::saveSettings() const {
     QSettings settings;
     settings.setValue("workDuration", m_workDuration);
     settings.setValue("shortBreakDuration", m_shortBreakDuration);

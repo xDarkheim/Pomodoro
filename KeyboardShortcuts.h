@@ -1,7 +1,6 @@
 #ifndef KEYBOARDSHORTCUTS_H
 #define KEYBOARDSHORTCUTS_H
 
-#include <QObject>
 #include <QShortcut>
 
 class KeyboardShortcuts : public QObject
@@ -10,7 +9,7 @@ class KeyboardShortcuts : public QObject
 
 public:
     explicit KeyboardShortcuts(QWidget *parent = nullptr);
-    ~KeyboardShortcuts() = default;
+    ~KeyboardShortcuts() override;
 
 signals:
     void startPauseRequested();
@@ -22,11 +21,11 @@ signals:
 private:
     void setupShortcuts(QWidget *parent);
 
-    QShortcut *m_startShortcut;
-    QShortcut *m_pauseShortcut;
-    QShortcut *m_resetShortcut;
-    QShortcut *m_settingsShortcut;
-    QShortcut *m_skipShortcut;
+    QShortcut *m_startShortcut{};
+    QShortcut *m_pauseShortcut{};
+    QShortcut *m_resetShortcut{};
+    QShortcut *m_settingsShortcut{};
+    QShortcut *m_skipShortcut{};
 };
 
 #endif // KEYBOARDSHORTCUTS_H

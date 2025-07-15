@@ -1,7 +1,6 @@
 #ifndef POMODOROTIMER_H
 #define POMODOROTIMER_H
 
-#include <QWidget>
 #include <QTimer>
 #include <QLabel>
 #include <QPushButton>
@@ -61,11 +60,11 @@ private:
     void createLabels();
     void createButtons();
     void createLayouts();
-    void applyStyles();
+    void applyStyles() const;
 
     // Settings management
     void loadSettings();
-    void saveSettings();
+    void saveSettings() const;
 
     // Timer state management
     void resetTimerState();
@@ -73,14 +72,14 @@ private:
 
     // Display update methods - optimized to avoid unnecessary updates
     void updateDisplay();
-    void updateSessionCounter();
-    void updateButtonStates();
+    void updateSessionCounter() const;
+    void updateButtonStates() const;
     void updateWindowTitle();
-    void updateTrayTooltip();
+    static void updateTrayTooltip();
 
     // Utility methods
-    QString formatTime(int seconds) const;
-    bool needsDisplayUpdate() const;
+    static QString formatTime(int seconds);
+    static void needsDisplayUpdate();
 
     // UI elements - use raw pointers for Qt objects with parent ownership
     QTimer *m_timer;

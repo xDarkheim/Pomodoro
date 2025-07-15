@@ -43,8 +43,8 @@ private:
     void setupChartTab();
     void setupDetailsTab();
     void loadDailyStatistics();
-    void updateOverview();
-    void updateChart();
+    void updateOverview() const;
+    void updateChart() const;
 
     // UI elements
     QTabWidget *m_tabWidget;

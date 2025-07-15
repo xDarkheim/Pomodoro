@@ -3,23 +3,23 @@
 #include <QAction>
 
 SystemTrayManager::SystemTrayManager(QObject *parent)
-    : QObject(parent)
-    , m_trayIcon(nullptr)
-    , m_trayMenu(nullptr)
-{
-    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        qWarning("System tray is not available on this system.");
-        return;
-    }
+    : QObject(parent), m_trayIcon(nullptr), m_trayMenu(nullptr) {
+  if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+    qWarning("System tray is not available on this system.");
+    return;
+  }
 
-    m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(qApp->windowIcon());
+  m_trayIcon = new QSystemTrayIcon(this);
+  m_trayIcon->setIcon(qApp->windowIcon());
 
-    setupTrayMenu();
+  setupTrayMenu();
 
-    connect(m_trayIcon, QOverload<QSystemTrayIcon::ActivationReason>::of(&QSystemTrayIcon::activated),
-            this, &SystemTrayManager::onTrayIconActivated);
+  connect(m_trayIcon,
+          QOverload<QSystemTrayIcon::ActivationReason>::of(
+              &QSystemTrayIcon::activated),
+          this, &SystemTrayManager::onTrayIconActivated);
 }
+SystemTrayManager::~SystemTrayManager() {}
 
 void SystemTrayManager::setupTrayMenu()
 {

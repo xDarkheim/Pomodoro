@@ -4,12 +4,9 @@
 #include <QMessageBox>
 
 NotificationManager::NotificationManager(QWidget *parent)
-    : QObject(parent)
-    , m_parent(parent)
-    , m_trayManager(nullptr)
-    , m_notificationsEnabled(true)
-{
-}
+    : QObject(parent), m_parent(parent), m_trayManager(nullptr),
+      m_notificationsEnabled(true) {}
+NotificationManager::~NotificationManager() {}
 
 void NotificationManager::setSystemTrayManager(SystemTrayManager *trayManager)
 {
@@ -21,8 +18,7 @@ void NotificationManager::setNotificationsEnabled(bool enabled)
     m_notificationsEnabled = enabled;
 }
 
-void NotificationManager::showNotification(const QString &message)
-{
+void NotificationManager::showNotification(const QString &message) const {
     if (!m_notificationsEnabled) return;
 
     if (m_trayManager && m_trayManager->isVisible()) {

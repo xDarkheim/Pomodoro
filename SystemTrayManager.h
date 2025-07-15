@@ -1,7 +1,6 @@
 #ifndef SYSTEMTRAYMANAGER_H
 #define SYSTEMTRAYMANAGER_H
 
-#include <QObject>
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include "TimerState.h"
@@ -12,7 +11,7 @@ class SystemTrayManager : public QObject
 
 public:
     explicit SystemTrayManager(QObject *parent = nullptr);
-    ~SystemTrayManager() = default;
+    ~SystemTrayManager() override;
 
     void show();
     void hide();
