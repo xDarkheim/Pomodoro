@@ -1,7 +1,7 @@
 # 🍅 Pomodoro Timer
 
 <div align="center">
-  <img src="logoTimer.png" alt="Pomodoro Timer Logo" width="256" height="256">
+  <img src="resources/logoTimer.png" alt="Pomodoro Timer Logo" width="256" height="256">
   
   **Simple and effective Pomodoro Timer for productivity enhancement**
   
