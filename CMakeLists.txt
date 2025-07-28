@@ -10,32 +10,56 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 qt6_standard_project_setup()
 
-# Define source files
-set(HEADERS
-    PomodoroTimer.h
-    CircularProgressBar.h
-    SettingsDialog.h
-    StatisticsDialog.h
-    TimerState.h
-    SystemTrayManager.h
-    KeyboardShortcuts.h
-    NotificationManager.h
+# Include directories
+include_directories(src/core)
+include_directories(src/ui)
+include_directories(src/system)
+include_directories(src/utils)
+
+# Define source files with new structure
+set(CORE_HEADERS
+    src/core/TimerState.h
+    src/core/TimerController.h
+    src/core/PomodoroConfig.h
 )
 
-set(SOURCES
-    main.cpp
-    PomodoroTimer.cpp
-    CircularProgressBar.cpp
-    SettingsDialog.cpp
-    StatisticsDialog.cpp
-    TimerState.cpp
-    SystemTrayManager.cpp
-    KeyboardShortcuts.cpp
-    NotificationManager.cpp
+set(UI_HEADERS
+    src/ui/PomodoroTimer.h
+    src/ui/CircularProgressBar.h
+    src/ui/SettingsDialog.h
+    src/ui/StatisticsDialog.h
 )
+
+set(SYSTEM_HEADERS
+    src/system/SystemTrayManager.h
+    src/system/KeyboardShortcuts.h
+    src/system/NotificationManager.h
+)
+
+set(CORE_SOURCES
+    src/core/TimerState.cpp
+    src/core/TimerController.cpp
+    src/core/PomodoroConfig.cpp
+)
+
+set(UI_SOURCES
+    src/ui/PomodoroTimer.cpp
+    src/ui/CircularProgressBar.cpp
+    src/ui/SettingsDialog.cpp
+    src/ui/StatisticsDialog.cpp
+)
+
+set(SYSTEM_SOURCES
+    src/system/SystemTrayManager.cpp
+    src/system/KeyboardShortcuts.cpp
+    src/system/NotificationManager.cpp
+)
+
+set(ALL_HEADERS ${CORE_HEADERS} ${UI_HEADERS} ${SYSTEM_HEADERS})
+set(ALL_SOURCES main.cpp ${CORE_SOURCES} ${UI_SOURCES} ${SYSTEM_SOURCES})
 
 # Create executable
-qt6_add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+qt6_add_executable(${PROJECT_NAME} ${ALL_SOURCES} ${ALL_HEADERS})
 
 # Link Qt libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -86,7 +110,7 @@ endif()
 # Configure desktop file for Linux
 if(UNIX AND NOT APPLE)
     configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/pomodoro-timer.desktop.in"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/pomodoro-timer.desktop.in"
         "${CMAKE_CURRENT_BINARY_DIR}/pomodoro-timer.desktop"
         @ONLY
     )

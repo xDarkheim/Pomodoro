@@ -13,7 +13,8 @@ PomodoroConfig::PomodoroConfig()
     const QString configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
     const QString appConfigDir = configPath + "/PomodoroTimer";
 
-    QDir().mkpath(appConfigDir);
+    QDir dir;
+    dir.mkpath(appConfigDir);
 
     m_settings = std::make_unique<QSettings>(
         appConfigDir + "/config.ini",

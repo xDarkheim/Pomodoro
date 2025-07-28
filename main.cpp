@@ -19,10 +19,36 @@ namespace {
     constexpr int PEN_WIDTH = 1;
     constexpr int HIGHLIGHT_ALPHA = 100;
 
-    // Cache for generated icons to avoid regeneration
-    QIcon g_cachedAppIcon;
+    // Forward declaration for createTomatoIcon
+    QIcon createTomatoIcon(int size = 32);
 
-    QIcon createTomatoIcon(int size = 32)
+    // Use thread-safe singleton pattern instead of global variable
+    class IconCache {
+    public:
+        static IconCache& instance() {
+            static IconCache cache;
+            return cache;
+        }
+
+        const QIcon& getApplicationIcon() {
+            if (m_cachedAppIcon.isNull()) {
+                initializeIcon();
+            }
+            return m_cachedAppIcon;
+        }
+
+    private:
+        QIcon m_cachedAppIcon;
+
+        void initializeIcon() {
+            constexpr int iconSizes[] = {16, 24, 32, 48, 64};
+            for (int size : iconSizes) {
+                m_cachedAppIcon.addPixmap(createTomatoIcon(size).pixmap(size, size));
+            }
+        }
+    };
+
+    QIcon createTomatoIcon(int size)
     {
         QPixmap pixmap(size, size);
         pixmap.fill(Qt::transparent);
@@ -82,22 +108,18 @@ namespace {
         return QIcon(pixmap);
     }
 
-    const QIcon& createApplicationIcon()
-    {
-        if (g_cachedAppIcon.isNull()) {
-            constexpr int iconSizes[] = {16, 24, 32, 48, 64};
-
-            for (int size : iconSizes) {
-                g_cachedAppIcon.addPixmap(createTomatoIcon(size).pixmap(size, size));
-            }
-        }
-        return g_cachedAppIcon;
-    }
-
     void centerWindow(QWidget* window)
     {
+        if (!window) {
+            qWarning() << "centerWindow: null window pointer";
+            return;
+        }
+
         const QScreen* screen = QApplication::primaryScreen();
-        if (!screen) return;
+        if (!screen) {
+            qWarning() << "centerWindow: no primary screen available";
+            return;
+        }
 
         const QRect screenGeometry = screen->availableGeometry();
         const int x = (screenGeometry.width() - window->width()) / 2;
@@ -110,7 +132,7 @@ namespace {
         app.setApplicationName(APP_NAME);
         app.setApplicationVersion(APP_VERSION);
         app.setOrganizationName(ORGANIZATION);
-        app.setWindowIcon(createApplicationIcon());
+        app.setWindowIcon(IconCache::instance().getApplicationIcon());
         app.setQuitOnLastWindowClosed(false);
     }
 }

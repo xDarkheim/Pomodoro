@@ -1,44 +1,57 @@
-# Pomodoro Timer
+# 🍅 Pomodoro Timer
 
-A simple Pomodoro Timer application built with C++ and the Qt framework.
+<div align="center">
+  <img src="logoTimer.png" alt="Pomodoro Timer Logo" width="256" height="256">
+  
+  **Simple and effective Pomodoro Timer for productivity enhancement**
+  
+  ![C++](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
+  ![Qt](https://img.shields.io/badge/Qt-6-green.svg)
+  ![CMake](https://img.shields.io/badge/CMake-3.16%2B-orange.svg)
+  ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+</div>
 
-## Features
+---
 
-*   Work, Short Break, and Long Break timers.
-*   Customizable timer durations.
-*   System tray integration with status updates.
-*   Desktop notifications for state changes.
-*   Session tracking.
+## ✨ Features
 
-## License
+- ⏰ **25-minute work sessions** with short and long breaks
+- 🔧 **Customizable time intervals**
+- 📊 **Session tracking** and statistics
+- 🔔 **Notifications** on session completion
+- 🖥️ **System tray** with quick access
+- ⌨️ **Keyboard shortcuts** for convenient control
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🚀 Quick Start
 
-## Building
+### Requirements
+- C++17 compiler (GCC/Clang)
+- Qt 6.0+
+- CMake 3.16+
 
-### Prerequisites
+### Build and Run
+```bash
+# Clone the repository
+git clone <repository-url>
+cd Pomodoro
 
-*   A C++17 compatible compiler
-*   Qt 6
-*   CMake
+# Create build directory
+mkdir build && cd build
 
-### Steps
+# Build the project
+cmake ..
+make
 
-1.  Clone the repository:
-    ```bash
-    git clone <repository-url>
-    ```
-2.  Create a build directory:
-    ```bash
-    cd PomodoroTimer
-    mkdir build && cd build
-    ```
-3.  Run CMake and build the project:
-    ```bash
-    cmake ..
-    make
-    ```
-4.  Run the application:
-    ```bash
-    ./PomodoroTimer
-    ```
+# Run the application
+./PomodoroTimer
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+  <b>Made with ❤️ for productivity enhancement</b>
+</div>

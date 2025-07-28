@@ -12,7 +12,7 @@ enum class SessionType {
     LongBreak
 };
 
-enum class TimerState {
+enum class TimerStatus {
     Stopped,
     Running,
     Paused
@@ -36,7 +36,7 @@ public:
     [[nodiscard]] int remainingSeconds() const { return m_remainingSeconds; }
     [[nodiscard]] int totalSeconds() const { return m_totalSeconds; }
     [[nodiscard]] SessionType currentSessionType() const { return m_currentSessionType; }
-    [[nodiscard]] TimerState state() const { return m_state; }
+    [[nodiscard]] TimerStatus state() const { return m_state; }
     [[nodiscard]] int completedSessions() const { return m_completedSessions; }
     [[nodiscard]] double progressPercentage() const;
 
@@ -49,7 +49,7 @@ signals:
     void timeChanged(int remainingSeconds);
     void sessionChanged(SessionType type);
     void timerFinished();
-    void stateChanged(TimerState state);
+    void stateChanged(TimerStatus state);
 
 private slots:
     void onTimerTick();
@@ -62,7 +62,7 @@ private:
     std::unique_ptr<QTimer> m_timer;
 
     // State
-    TimerState m_state = TimerState::Stopped;
+    TimerStatus m_state = TimerStatus::Stopped;
     SessionType m_currentSessionType = SessionType::Work;
 
     // Time tracking

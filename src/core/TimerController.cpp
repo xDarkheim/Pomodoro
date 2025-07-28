@@ -12,20 +12,20 @@ TimerController::TimerController(QObject *parent)
 
 void TimerController::start()
 {
-    if (m_state == TimerState::Stopped) {
+    if (m_state == TimerStatus::Stopped) {
         updateTotalSeconds();
         m_remainingSeconds = m_totalSeconds;
     }
 
-    m_state = TimerState::Running;
+    m_state = TimerStatus::Running;
     m_timer->start();
     emit stateChanged(m_state);
 }
 
 void TimerController::pause()
 {
-    if (m_state == TimerState::Running) {
-        m_state = TimerState::Paused;
+    if (m_state == TimerStatus::Running) {
+        m_state = TimerStatus::Paused;
         m_timer->stop();
         emit stateChanged(m_state);
     }
@@ -34,7 +34,7 @@ void TimerController::pause()
 void TimerController::reset()
 {
     m_timer->stop();
-    m_state = TimerState::Stopped;
+    m_state = TimerStatus::Stopped;
     m_currentSessionType = SessionType::Work;
     updateTotalSeconds();
     m_remainingSeconds = m_totalSeconds;
@@ -86,7 +86,7 @@ void TimerController::startNextSession()
             break;
     }
 
-    m_state = TimerState::Stopped;
+    m_state = TimerStatus::Stopped;
     updateTotalSeconds();
     m_remainingSeconds = m_totalSeconds;
 
